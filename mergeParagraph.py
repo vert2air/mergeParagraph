@@ -1,6 +1,4 @@
 
-lineMaxLen = 71
-
 def flushBuf(buf, fw) :
     # buf にたまっている時だけ処理する。
     if len(buf) > 0 :
@@ -10,7 +8,7 @@ def flushBuf(buf, fw) :
             print(b.rstrip(), file=fw, end='')
         print('', file=fw)
 
-def mergeParagraph(fr, fw) :
+def mergeParagraph(fr, fw, lineMaxLen) :
     buf = []
     for line in fr :
         if line.rstrip() == '' :
@@ -34,9 +32,36 @@ def mergeParagraph(fr, fw) :
             buf.append(line)
     flushBuf(buf, fw)
 
+from collections import defaultdict
+def inferMaxLen(fr) :
+    inferCnt = defaultdict(int)
+    prevLen = 0
+    for line in fr :
+        line = line.rstrip()
+        if line == '' : # 現在行が空行
+            pass
+        elif prevLen == 0 : # 前の行が空行
+            pass
+        else :
+            fwLen = len(line.split()[0])
+            for rLen in range(prevLen, prevLen + 1 + fwLen) :
+                inferCnt[rLen] += 1
+        prevLen = len(line)
+    mostLen, mostCnt = -1, 0
+    for iLen in sorted(inferCnt.keys()) :
+        if inferCnt[iLen] >= mostCnt :
+            mostLen, mostCnt = iLen, inferCnt[iLen]
+        #print('{} => {}'.format(iLen, inferCnt[iLen]))
+    return mostLen
+
 fn = '20kLeaguesUnderTheSea_orig.txt'
 fout = '20kLeaguesUnderTheSea_mP.txt'
+
+with open(fn, 'r', encoding='utf8') as fr :
+    lineMaxLen = inferMaxLen(fr)
+    print('lineMaxLen = {}'.format(lineMaxLen))
+
 with open(fn, 'r', encoding='utf8') as fr :
     with open(fout, 'w', encoding='utf8') as fw :
-        mergeParagraph(fr, fw)
+        mergeParagraph(fr, fw, lineMaxLen)
 
