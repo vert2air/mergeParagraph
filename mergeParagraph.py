@@ -18,21 +18,20 @@ def mergeParagraph(fr, fw) :
             flushBuf(buf, fw)
             print('', file=fw)
             buf = []
+        elif len(buf) == 0 :
+            # buf が空なので、取り合えずbuffering
+            buf.append(line)
         else :
-            if len(buf) == 0 :
-                # buf が空なので、取り合えずbuffering
-                buf.append(line)
-            else :
-                # bufの最後の行を見て、継続行かを判断する。
-                ws = line.split()
-                if (len(buf[-1]) + 1 + len(ws[0]) < lineMaxLen) :
-                    # 先頭の単語を前の行の後に付けても
-                    # 1行の最大文字数を超えないのなら
-                    # 意図的に改行していると判断し、
-                    # 今のbufまでの内容を吐き出す。この時改行もされる。
-                    flushBuf(buf, fw)
-                    buf = []
-                buf.append(line)
+            # bufの最後の行を見て、継続行かを判断する。
+            ws = line.split()
+            if (len(buf[-1]) + 1 + len(ws[0]) < lineMaxLen) :
+                # 先頭の単語を前の行の後に付けても
+                # 1行の最大文字数を超えないのなら
+                # 意図的に改行していると判断し、
+                # 今のbufまでの内容を吐き出す。この時改行もされる。
+                flushBuf(buf, fw)
+                buf = []
+            buf.append(line)
     flushBuf(buf, fw)
 
 fn = '20kLeaguesUnderTheSea_orig.txt'
