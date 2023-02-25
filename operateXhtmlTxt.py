@@ -13,16 +13,13 @@ def extract(soup, repl=[]) :
         cidx = 0
         print('-- while loop --- tidx:{} repl.len:{}'.format(tidx, len(repl)))
         for i, p in enumerate(ps) :
-            #print('---- for1 --- cidx:{} {}'.format(cidx, i))
             for j, ct in enumerate(p.contents) :
-                #print('------ for2 --- cidx:{} {} {}'.format(cidx, j, type(ct)))
                 if type(ct) is NavigableString :
                     # <p>タグの内容として、直接文字列が書かれていた。
                     xs = useCp932(str(ct)).split('\n')
                     if len(repl) > 0 :
                         if cidx == tidx :
                             lcnt = len(xs)
-                            #print('------ replace --- cidx:{} lcnt:{}'.format(cidx, lcnt))
                             p.contents[j].replace_with('\n'.join(repl[ :lcnt]))
                             del repl[ : lcnt]
                             replaced = True
@@ -34,14 +31,12 @@ def extract(soup, repl=[]) :
                 elif type(ct) is Tag and ct.name == 'a' :
                     # <p>タグの内容として、<a>タグが含まれていた。
                     for k, c_in_a in enumerate(ct.contents) :
-                        #print('-------- for3 --- cidx:{} {}'.format(cidx, k))
                         # <p>タグ内の<a>タグの内容check
                         if type(c_in_a) is NavigableString :
                             xs = useCp932(str(c_in_a)).split('\n')
                             if len(repl) > 0 :
                                 if cidx == tidx :
                                     lcnt = len(xs)
-                                    #print('-------- replace_2 --- cidx:{} lcnt:{}'.format(cidx, lcnt))
                                     ct.contents[k].replace_with('\n'.join(repl[ :lcnt]))
                                     del repl[ : lcnt]
                                     replaced = True
