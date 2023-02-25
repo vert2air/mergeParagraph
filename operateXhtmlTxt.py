@@ -43,7 +43,7 @@ def extract(soup, repl=[]) :
                                     cidx += 1
                                     break
                             else :
-                                ans.extend( useCp932(str(c_in_a)).split('\n') )
+                                ans.extend( xs )
                             cidx += 1
                     if tidx >= 0 and cidx > tidx :
                         break
