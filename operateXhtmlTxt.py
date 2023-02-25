@@ -39,26 +39,38 @@ def extract(soup, tag_name, repl=[]) :
         tidx += 1
     return ans, soup
 
-fnSource = sys.argv[1]
-fnXlated = sys.argv[2] if len(sys.argv) > 2 else ''
-
-tags = [ 'p', 'a', 'h3' ]
-with open(fnSource, 'r', encoding='utf8') as fs :
-    xhtml = fs.read()
-soup = BeautifulSoup(xhtml, "html.parser")
-if fnXlated == '' :
+def extract_multi(soup, tags) :
+    ret = []
     for tag in tags :
         ans, _ = extract(soup, tag)
-        for a in ans :
-            print(a)
-else :
-    with open(fnXlated, 'r', encoding='utf8') as fx :
-        xlated = fx.readlines()
+        ret.extend(ans)
+    return ret
+
+def replace_multi(soup, tags, xlated) :
     for tag in tags :
         _, soup = extract(soup, tag, repl=xlated)
-    with open('out.xhtml', 'w', encoding='utf8') as fw :
-        #fw.write(soup.prettify(formatter='minimal'))
-        fw.write(soup.prettify(formatter='html'))
-        #formatter = HTMLFormatter(indent=2)
-        #fw.write(soup.prettify(formatter=formatter))
+    return soup
 
+if __name__ == '__main__' :
+
+    fnSource = sys.argv[1]
+    fnXlated = sys.argv[2] if len(sys.argv) > 2 else ''
+
+    tags = [ 'p', 'a', 'h3' ]
+    with open(fnSource, 'r', encoding='utf8') as fs :
+        xhtml = fs.read()
+    soup = BeautifulSoup(xhtml, "html.parser")
+
+    if fnXlated == '' :
+        ans = extract_multi(soup, tags) :
+        for a in ans :
+            print(a)
+    else :
+        with open(fnXlated, 'r', encoding='utf8') as fx :
+            xlated = fx.readlines()
+        soup = replace_multi(soup, tags, xlated) :
+        with open('out.xhtml', 'w', encoding='utf8') as fw :
+            #fw.write(soup.prettify(formatter='minimal'))
+            fw.write(soup.prettify(formatter='html'))
+            #formatter = HTMLFormatter(indent=2)
+            #fw.write(soup.prettify(formatter=formatter))
