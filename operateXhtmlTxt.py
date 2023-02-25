@@ -37,7 +37,8 @@ def extract(soup, repl=[]) :
                             if len(repl) > 0 :
                                 if cidx == tidx :
                                     lcnt = len(xs)
-                                    ct.contents[k].replace_with('\n'.join(repl[ :lcnt]))
+                                    ct.contents[k].replace_with(
+                                                        '\n'.join(repl[ :lcnt]))
                                     del repl[ : lcnt]
                                     replaced = True
                                     cidx += 1
