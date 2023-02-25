@@ -72,15 +72,10 @@ if fnXlated == '' :
 else :
     with open(fnXlated, 'r', encoding='utf8') as fx :
         xlated = fx.read().split('\n')
-    #for i, l in enumerate(xlated) :
-        #print('{} {}'.format(i, l))
-    #print('------------------------------------------------------')
     _, soup = extract(soup, repl=xlated)
     with open('out.xhtml', 'w', encoding='utf8') as fw :
         #fw.write(soup.prettify(formatter='minimal'))
-        #fw.write(soup.prettify(formatter='html'))
-        formatter = HTMLFormatter(indent=0)
-        fw.write(soup.prettify(formatter=formatter))
-    #print(soup.prettify())
-
+        fw.write(soup.prettify(formatter='html'))
+        #formatter = HTMLFormatter(indent=2)
+        #fw.write(soup.prettify(formatter=formatter))
 
