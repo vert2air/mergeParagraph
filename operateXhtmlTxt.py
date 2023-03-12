@@ -62,13 +62,13 @@ if __name__ == '__main__' :
     soup = BeautifulSoup(xhtml, "html.parser")
 
     if fnXlated == '' :
-        ans = extract_multi(soup, tags) :
+        ans = extract_multi(soup, tags)
         for a in ans :
             print(a)
     else :
         with open(fnXlated, 'r', encoding='utf8') as fx :
             xlated = fx.readlines()
-        soup = replace_multi(soup, tags, xlated) :
+        soup = replace_multi(soup, tags, xlated)
         with open('out.xhtml', 'w', encoding='utf8') as fw :
             #fw.write(soup.prettify(formatter='minimal'))
             fw.write(soup.prettify(formatter='html'))
