@@ -5,9 +5,11 @@ cp932_stat = defaultdict(int)
 
 cp932_chars = {
     # short desc           REGEX     cp932
+    'a tilda'          : [ r'\xe3',   "a" ],  # チルダ(~)付き
     'c Cedille'        : [ r'\xe7',   "c" ],
-    'e accent grave'   : [ r'\xe8',   "e" ],  # 抑音符付き
-    'e accent aigu'    : [ r'\xe9',   "e" ],  # アクセント記号付き
+    'e accent grave'   : [ r'\xe8',   "e" ],  # 抑音符(`)付き
+    'e accent aigu'    : [ r'\xe9',   "e" ],  # アクセント記号(')付き
+    'o accent aigu'    : [ r'\xf3',   "o" ],  # アクセント記号(')付き
     'EM dash'          : [ r'\u2014', '-' ],
     'single backquote' : [ r'\u2018', "`" ],
     'single quote'     : [ r'\u2019', "'" ],  # <81>f  <81><66>
